@@ -48,10 +48,10 @@ def main(city, start_month, end_month, start_day, end_day, start_year, end_year)
 
 if __name__ == '__main__':
     city = 'us/md/baltimore/KBWI'
-    start_month = 1
-    end_month = 1
-    start_day = 24
-    end_day = 31
+    start_month = 2
+    end_month = 2
+    start_day = 1
+    end_day = 29
     start_year = 2019
     end_year = 1945
     main(city, start_month, end_month, start_day, end_day, start_year, end_year)
