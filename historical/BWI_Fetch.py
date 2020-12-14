@@ -26,10 +26,13 @@ def main(city, start_month, end_month, start_day, end_day, start_year, end_year)
     
             print(city_url)
     
-            driver.get(city_url);
-    
-            time.sleep(12)
-    
+            while True:
+                try:
+                    driver.get(city_url);
+                    time.sleep(12)
+                    break
+                except:
+                    time.sleep(12)
             page_source = driver.page_source
             
             begin_index = page_source.index('High Temp')
@@ -45,10 +48,10 @@ def main(city, start_month, end_month, start_day, end_day, start_year, end_year)
 
 if __name__ == '__main__':
     city = 'us/md/baltimore/KBWI'
-    start_month = 11
-    end_month = 11
-    start_day = 12
-    end_day = 25
+    start_month = 1
+    end_month = 1
+    start_day = 24
+    end_day = 31
     start_year = 2019
     end_year = 1945
     main(city, start_month, end_month, start_day, end_day, start_year, end_year)
