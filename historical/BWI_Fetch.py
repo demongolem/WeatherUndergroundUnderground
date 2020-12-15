@@ -50,7 +50,7 @@ if __name__ == '__main__':
     city = 'us/md/baltimore/KBWI'
     start_month = 2
     end_month = 2
-    start_day = 1
+    start_day = 4
     end_day = 29
     start_year = 2019
     end_year = 1945

@@ -5,6 +5,7 @@ Created on Dec 10, 2020
 '''
 
 import os
+import time
 
 def file_date(raw_string):
     return raw_string[:-11]
@@ -65,12 +66,19 @@ def main():
     max_max_date = max_max_values[0]
     max_max_temp = max_max_values[1]
 
+    today_date = time.strftime("%m-%d-%Y")
+    relevant_file = '-'.join(today_date.split('-')[0:2]) + '_maxmin.txt'
+    (max_today_temp, min_today_temp) = max_min_from_file(output_dir, relevant_file)
+
     print('Coldest')
     print(str(min_min_date) + ' : ' + str(min_min_temp))
     print(str(min_max_date) + ' : ' + str(min_max_temp))
     print('Warmest')
     print(str(max_min_date) + ' : ' + str(max_min_temp))
     print(str(max_max_date) + ' : ' + str(max_max_temp))
+    print('Today')
+    print(str(today_date) + ' : ' + str(max_today_temp))
+    print(str(today_date) + ' : ' + str(min_today_temp))
 
 if __name__ == '__main__':
     main()
