@@ -1,3 +1,14 @@
+'''
+Created October, 2020
+
+This fetches min and max values over a certain range of dates from the Weather
+Underground website.  Because the API is pay, we have to do web scraping to
+get at the data we need.  There needs to be a timeout in place to handle
+the Javscript construction of the queried data. 
+
+@author: Mendy
+'''
+
 import os
 import re
 from selenium import webdriver
@@ -10,6 +21,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 os.environ['MOZ_HEADLESS'] = '1'
 
 temp_regex = r'\>(\-?[0-9]+)\<'
+
+SLEEP_TIMEOUT = 12
 
 def main(city, start_month, end_month, start_day, end_day, start_year, end_year):
     if start_month != end_month:
@@ -29,29 +42,34 @@ def main(city, start_month, end_month, start_day, end_day, start_year, end_year)
             while True:
                 try:
                     driver.get(city_url);
-                    time.sleep(12)
+                    time.sleep(SLEEP_TIMEOUT)
                     break
                 except:
-                    time.sleep(12)
+                    time.sleep(SLEEP_TIMEOUT)
             page_source = driver.page_source
             
-            begin_index = page_source.index('High Temp')
-            end_index = page_source.index('Day Average Temp')
-            interesting_string = page_source[begin_index:end_index]
-     
-            match_list = re.findall(temp_regex, interesting_string)
-            
-            with open('../output/gecko_out_' + str(y) + '-' + month_date + '.txt', 'w', encoding='utf-8') as fs:
-                fs.write(match_list[0] + '\n' + match_list[3])
+            try:
+                begin_index = page_source.index('High Temp')
+                end_index = page_source.index('Day Average Temp')
+                interesting_string = page_source[begin_index:end_index]
+         
+                match_list = re.findall(temp_regex, interesting_string)
+                
+                with open('../output/bwi_fetch_output/gecko_out_' + str(y) + '-' + month_date + '.txt', 'w', encoding='utf-8') as fs:
+                    fs.write(match_list[0] + '\n' + match_list[3])
+            except:
+                print('No data for that day')
+                with open('../output/bwi_fetch_output/gecko_out_' + str(y) + '-' + month_date + '.txt', 'w', encoding='utf-8') as fs:
+                    fs.write("0" + '\n' + "0") 
             
             driver.close()
 
 if __name__ == '__main__':
     city = 'us/md/baltimore/KBWI'
-    start_month = 2
-    end_month = 2
-    start_day = 4
-    end_day = 29
+    start_month = 4
+    end_month = 4
+    start_day = 1
+    end_day = 30
     start_year = 2019
     end_year = 1945
     main(city, start_month, end_month, start_day, end_day, start_year, end_year)

@@ -1,6 +1,9 @@
 '''
 Created on Dec 10, 2020
 
+Plot max and min information on a graph taken from data which was generated
+by ProcessWeatherData
+
 @author: Mendy
 '''
 
@@ -26,7 +29,7 @@ def max_min_from_file(output_dir, f):
     return (max_value, min_value)
 
 def plot_output(output_dir):
-    fig, ax = plt.subplots(ncols=2)  # Create a figure containing a single axes.
+    _, ax = plt.subplots(ncols=2)  # Create a figure containing a single axes.
     files = os.listdir(output_dir)
     x_data = []
     y_max_data = []
@@ -45,7 +48,7 @@ def plot_output(output_dir):
     plt.show()
 
 def main():
-    output_dir = '../output'
+    output_dir = '../output/process_weather_data_output'
     plot_output(output_dir)
 
 if __name__ == '__main__':

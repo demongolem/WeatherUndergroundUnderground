@@ -1,11 +1,13 @@
 '''
 Created on Dec 10, 2020
 
+Fetch the max and min extremes from data created by ProcessWeatherData
+
 @author: Mendy
 '''
 
+import datetime
 import os
-import time
 
 def file_date(raw_string):
     return raw_string[:-11]
@@ -55,7 +57,7 @@ def fetch_extremes(output_dir):
     return ((min_min_date, min_min_temp),(max_min_date, max_min_temp),(min_max_date, min_max_temp), (max_max_date, max_max_temp))
  
 def main():
-    output_dir = '../output'
+    output_dir = '../output/process_weather_data_output'
     (min_min_values, max_min_values, min_max_values, max_max_values) = fetch_extremes(output_dir)
     min_min_date = min_min_values[0]
     min_min_temp = min_min_values[1]
@@ -66,7 +68,8 @@ def main():
     max_max_date = max_max_values[0]
     max_max_temp = max_max_values[1]
 
-    today_date = time.strftime("%m-%d-%Y")
+    dt = datetime.datetime.now()
+    today_date= f'{dt.month}-{dt.day}-{dt.year}'
     relevant_file = '-'.join(today_date.split('-')[0:2]) + '_maxmin.txt'
     (max_today_temp, min_today_temp) = max_min_from_file(output_dir, relevant_file)
 
