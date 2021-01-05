@@ -61,16 +61,47 @@ def find_all_lacking(output_dir):
                                         + nopad_number(y) + '-' 
                                         + nopad_number(m) + '-' 
                                         + nopad_number(d) + '.txt')
-                print(filename)
                 if not os.path.isfile(filename):
                     all_lacking_list.append(filename)
     return all_lacking_list
            
 # return any day on any year without output file from months not completely 
 # missing data
-def find_all_lacking_represented_months():
-    pass
-
+def find_all_lacking_represented_months(output_dir):
+    empty_month_set = set()
+    all_lacking_list = []
+    
+    for m in range(1, 13):
+        try:
+            for d in range(1, 32):
+                for y in range(1945, 2020):
+                    filename = os.path.join(output_dir, 'gecko_out_' 
+                                        + nopad_number(y) + '-' 
+                                        + nopad_number(m) + '-' 
+                                        + nopad_number(d) + '.txt')
+                    if os.path.isfile(filename):
+                        raise ValueError
+            empty_month_set.add(m)
+        except ValueError:
+            pass
+    
+    print(str(empty_month_set) + ' are the months that have not been processed')
+    
+    # upper bound 12 * 31 * 75 = 27900
+    for m in range(1, 13):
+        if m in empty_month_set:
+            continue
+        for d in range(1, 32):
+            for y in range(1945, 2020):
+                if not is_valid_day(m, d, y):
+                    continue
+                filename = os.path.join(output_dir, 'gecko_out_' 
+                                        + nopad_number(y) + '-' 
+                                        + nopad_number(m) + '-' 
+                                        + nopad_number(d) + '.txt')
+                if not os.path.isfile(filename):
+                    all_lacking_list.append(filename)
+    return all_lacking_list
 # get which lacking are due to data errors on weather underground and which
 # are not
 def get_lacking_groups():
@@ -83,6 +114,8 @@ def fill_lacking_values_source(source_name):
 def main(output_dir):
     comprehensize_list = find_all_lacking(output_dir)
     print(len(comprehensize_list))
+    alive_list = find_all_lacking_represented_months(output_dir)
+    print(len(alive_list))
 
 if __name__ == '__main__':
     bwi_output_dir = '../output/bwi_fetch_output'
