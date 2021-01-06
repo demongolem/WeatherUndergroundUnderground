@@ -21,6 +21,8 @@ we could interact with other sites to try to get the missing data.
 
 import os
 
+import BWI_Fetch
+
 # prevent things like November 31
 # February 29 is a headache
 def is_valid_day(m, d, y):
@@ -102,6 +104,7 @@ def find_all_lacking_represented_months(output_dir):
                 if not os.path.isfile(filename):
                     all_lacking_list.append(filename)
     return all_lacking_list
+
 # get which lacking are due to data errors on weather underground and which
 # are not
 def get_lacking_groups():
@@ -116,6 +119,7 @@ def main(output_dir):
     print(len(comprehensize_list))
     alive_list = find_all_lacking_represented_months(output_dir)
     print(len(alive_list))
+    BWI_Fetch.fetch_from_list('us/md/baltimore/KBWI', alive_list)
 
 if __name__ == '__main__':
     bwi_output_dir = '../output/bwi_fetch_output'
