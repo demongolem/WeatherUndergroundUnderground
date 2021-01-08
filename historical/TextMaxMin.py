@@ -13,8 +13,15 @@ def file_date(raw_string):
     return raw_string[:-11]
 
 def max_min_from_file(output_dir, f):
-    with open(os.path.join(output_dir, f)) as fs:
-        lines = fs.readlines()
+    if f is None:
+        with open(output_dir) as fs:
+            lines = fs.readlines()
+    elif output_dir is None:
+        with open(f) as fs:
+            lines = fs.readlines()
+    else:
+        with open(os.path.join(output_dir, f)) as fs:
+            lines = fs.readlines()
     max_value = float(lines[0][18:].strip())
     min_value = float(lines[1][18:].strip())
     return (max_value, min_value)

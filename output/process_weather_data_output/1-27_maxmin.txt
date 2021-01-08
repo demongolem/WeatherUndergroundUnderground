@@ -1,2 +1,2 @@
-Final max average 42.52
+Final max average 42.875
 Final min average 26.016949152542374
